@@ -9,8 +9,9 @@ import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { LoginComponent } from './user/login/login.component';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
-
-
+import { HttpClientModule } from '@angular/common/http';
+import { AppService } from './app.service';
+import {ToastrModule} from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent
@@ -18,8 +19,11 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
     UserModule,
     ChatModule,
+    HttpClientModule,
     RouterModule.forRoot([
       {path:'login',component:LoginComponent,pathMatch:'full'},
       {path:'',redirectTo:'login',pathMatch:'full'},
@@ -27,7 +31,7 @@ import {FormsModule,ReactiveFormsModule} from '@angular/forms';
       {path:'**',component:LoginComponent}
   ])
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,6 +13,8 @@ import {RouterModule,Routes} from '@angular/router';
   declarations: [LoginComponent, SignupComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
 
       {path:'sign-up',component:SignupComponent,pathMatch:'full'}

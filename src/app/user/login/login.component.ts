@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     public appService: AppService,
     public router: Router,
-    private toastr: ToastrService,
-    vcr: ViewContainerRef,
+    private toastr: ToastrService
+    
   ) {
 
    // this.toastr.setRootViewContainerRef(vcr);

@@ -22,24 +22,75 @@ export class AppService {
 
   constructor(public http: HttpClient) { }
 
-  public signupFunction(data): any{
+  public getUserInfoFromLocalstorage = () => {
+
+    return JSON.parse(localStorage.getItem('userInfo'));
+
+  } // end getUserInfoFromLocalstorage
+
+
+  public setUserInfoInLocalStorage = (data) =>{
+
+    localStorage.setItem('userInfo', JSON.stringify(data))
 
 
   }
 
-  public signinFunction(data): any{
+  public signupFunction(data): Observable<any> {
 
-  }
-  public setUserInfoInLocalStorage=(data) =>{
+    const params = new HttpParams()
+      .set('firstName', data.firstName)
+      .set('lastName', data.lastName)
+      .set('mobile', data.mobile)
+      .set('email', data.email)
+      .set('password', data.password)
+      .set('apiKey', data.apiKey);
 
-  }
-  public getUserInfoInLocalStorage=() =>{
-    
-  }
-private handleError(err: HttpErrorResponse) {
+    return this.http.post(`${this.url}/api/v1/users/signup`, params);
 
-    console.log(err.message);
-    return Observable.throw(err.message);
-    
-   }
+  } // end of signupFunction function.
+
+  public signinFunction(data): Observable<any> {
+
+    const params = new HttpParams()
+      .set('email', data.email)
+      .set('password', data.password);
+
+    return this.http.post(`${this.url}/api/v1/users/login`, params);
+  } // end of signinFunction function.
+
+  
+  public logout(): Observable<any> {
+
+    const params = new HttpParams()
+      .set('authToken', Cookie.get('authtoken'))
+
+    return this.http.post(`${this.url}/api/v1/users/logout`, params);
+
+  } // end logout function
+
+  
+
+  private handleError(err: HttpErrorResponse) {
+
+    let errorMessage = '';
+
+    if (err.error instanceof Error) {
+
+      errorMessage = `An error occurred: ${err.error.message}`;
+
+    } else {
+
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+
+    } // end condition *if
+
+    console.error(errorMessage);
+
+    return Observable.throw(errorMessage);
+
+  }  // END handleError
+
 }
+
+
